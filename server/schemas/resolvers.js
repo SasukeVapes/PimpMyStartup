@@ -1,4 +1,4 @@
-const { User, Fundraiser } = require("../models");
+const { User, Fundraiser, ActivityLog, Analytics, CampaignUpdate, DonationRefundRequest, Report } = require("../models");
 const { signToken } = require("../utils/auth");
 const {
   AuthenticationError,
@@ -35,6 +35,21 @@ const resolvers = {
     },
     getAllFundRaisers: async (parent) => {
       return await Fundraiser.find({});
+    },
+    getActivityLogs: async (parent, args, context) => {
+      return await ActivityLog.find({});
+    },
+    getAnalytics: async (parent, args, context) => {
+      return await Analytics.findOne({});
+    },
+    getCampaignUpdatesByFundraiser: async (parent, { fundraiserID }) => {
+      return await CampaignUpdate.find({ fundraiserID }).sort({ datePosted: -1 });
+    },
+    getDonationRefundRequestsByUser: async (parent, { userRequestingRefund }) => {
+      return await DonationRefundRequest.find({ userRequestingRefund }).sort({ dateRequested: -1 });
+    },
+    getReportsByUser: async (parent, { reporter }) => {
+      return await Report.find({ reporter }).sort({ dateSubmitted: -1 });
     },
   },
 
@@ -143,6 +158,59 @@ const resolvers = {
       console.log("card", card);
 
       return await Fundraiser.findById(fundraiserId).populate("contributions");
+    },
+    addActivityLog: async (parent, { actionType, description }, context) => {
+      const userPerformingAction = context.user ? context.user._id : null;
+      const ipAddress = context.ipAddress; 
+  
+      const activityLog = await ActivityLog.create({
+        userPerformingAction,
+        actionType,
+        description,
+        ipAddress,
+      });
+  
+      return activityLog;
+    },
+    createAnalytics: async (parent, { analyticsInput }, context) => {
+      const createdAnalytics = await Analytics.create(analyticsInput);
+  
+      return createdAnalytics;
+    },
+    updateAnalytics: async (parent, { analyticsInput }, context) => {
+      const updatedAnalytics = await Analytics.findOneAndUpdate(
+        {},
+        { $set: analyticsInput },
+        { new: true, upsert: true }
+      );
+  
+      return updatedAnalytics;
+    },
+    addCampaignUpdate: async (parent, { campaignUpdateInput }) => {
+      const newCampaignUpdate = await CampaignUpdate.create(campaignUpdateInput);
+      return newCampaignUpdate;
+    },
+    requestDonationRefund: async (parent, { donationRefundRequestInput }) => {
+      const newDonationRefundRequest = await DonationRefundRequest.create(donationRefundRequestInput);
+      return newDonationRefundRequest;
+    },
+    updateDonationRefundRequestStatus: async (parent, { refundRequestID, status, administratorComments }) => {
+      return await DonationRefundRequest.findByIdAndUpdate(
+        refundRequestID,
+        { $set: { status, administratorComments } },
+        { new: true }
+      );
+    },
+    submitReport: async (parent, { reportInput }) => {
+      const newReport = await Report.create(reportInput);
+      return newReport;
+    },
+    updateReportStatus: async (parent, { reportID, status }) => {
+      return await Report.findByIdAndUpdate(
+        reportID,
+        { $set: { status } },
+        { new: true }
+      );
     },
   },
 };
