@@ -1,0 +1,121 @@
+body {
+  font-family: 'Rubik', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Rubik Mono One', sans-serif;
+}
+
+.small {
+  font-weight: bold;
+  font-style: italic;
+}
+
+.color-nav {
+  background-color: #F5E6E8;
+}
+
+.submitButton {
+  background-color: #271951
+}
+.submitBtn:hover {
+  background-color: #583da8;
+}
+
+.signupBtn{
+  background-color: #271951;
+}
+
+.signupBtn:hover {
+  background-color: #583da8;
+}
+
+.createBtn {
+  background-color: #271951;
+}
+.createBtn:hover {
+  background-color: #583da8;
+}
+
+.paymentBtn {
+  background-color: #271951;
+}
+
+.paymentBtn:hover {
+  background-color: #583da8;
+}
+.signup-button {
+  background-color: #271951;
+  color: #F5E6E8;
+  border-radius: 5px;
+  margin-left: 5px;
+}
+
+.signup-button:hover {
+  background-color: #322165;
+  color: #fff;
+  border-radius: 5px;
+}
+
+.site-title {
+  font-size: x-large;
+  font-weight: 900;
+  color: #192A51;
+}
+
+
+.page-header {
+  background-color: #271951;
+  color: #F5E6E8;
+  text-align: center;
+}
+.page-header h1 {
+  color: #F5E6E8;
+}
+.nav-text {
+  color: #fff;
+  font-weight: 450;
+  font-size: larger;
+}
+
+body {
+  background-color: #fff9fa;
+} 
+
+.form {
+  background-color: #fff;
+  box-shadow: 0 0 3px #ccc;
+  padding: 35px  15px 25px 15px;
+  margin-bottom: 30px;
+  margin-top: 14px;
+  border-radius: 10px;
+}
+.more-details {
+  background-color: #271951;
+}
+.more-details:hover {
+  background-color: #583da8;
+}
+
+.fundraiser-card:hover {
+  background-color: #dbc6c8;
+  box-shadow: 0 0 3px #aaa;
+}
+
+.contributions {
+  background-color: #fff;
+  padding: 10px  15px 10px 15px;
+  margin-bottom: 30px;
+  margin-top: 14px;
+  border-radius: 10px;
+}
+.contribution-detail {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+}
