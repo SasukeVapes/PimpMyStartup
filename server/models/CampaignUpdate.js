@@ -4,7 +4,7 @@ const campaignUpdateSchema = new Schema(
   {
     fundraiserID: {
       type: Schema.Types.ObjectId,
-      ref: "Fundraiser", // Adjust this based on your actual model name
+      ref: "Fundraiser",
       required: true,
     },
     title: {

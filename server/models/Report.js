@@ -22,7 +22,7 @@ const reportSchema = new Schema(
     },
     fundraiserOrContributionID: {
       type: Schema.Types.ObjectId,
-      ref: "Fundraiser", // Adjust this based on your actual model name
+      ref: "Fundraiser", 
     },
   },
   {
