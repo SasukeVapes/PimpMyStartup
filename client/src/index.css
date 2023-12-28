@@ -119,3 +119,18 @@ body {
   margin-bottom: 15px;
   padding-bottom: 5px;
 }
+
+/* SuccessStoriesPage */
+.hover-scale:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+}
+
+.fade-in {
+  opacity: 0.95;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade-in:hover {
+  opacity: 1;
+}

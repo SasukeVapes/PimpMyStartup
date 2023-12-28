@@ -13,6 +13,8 @@ import Navbar from "./components/Navbar";
 import FundraiserDetail from "./pages/FundraiserDetail";
 import AboutPage from "./pages/AboutPage";
 import ContactsPage from "./pages/ContactsPage";
+import QAPage from "./pages/QAPage";
+import SuccessStoriesPage from "./pages/SuccessStoriesPage";
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -41,8 +43,10 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<SearchFundraiser />} />
+            <Route path="/qa" element={<QAPage />} />
             <Route path="/created" element={<CreatedFundraiser />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/ss" element={<SuccessStoriesPage />} />
             <Route path="/contacts" element={<ContactsPage />} />
             <Route path="/fundraiser/:id" element={<FundraiserDetail />} />
           </Routes>
