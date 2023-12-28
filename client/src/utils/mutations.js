@@ -113,3 +113,16 @@ export const ADD_CONTRIBUTION = gql`
     }
   }
 `;
+
+export const SUBMIT_REPORT = gql`
+  mutation SubmitReport($reportInput: ReportInput!) {
+    submitReport(reportInput: $reportInput) {
+      _id
+      reporter
+      description
+      status
+      dateSubmitted
+      fundraiserOrContributionID
+    }
+  }
+`;

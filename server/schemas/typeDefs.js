@@ -144,6 +144,7 @@ const typeDefs = gql`
     getCampaignUpdatesByFundraiser(fundraiserID: ID!): [CampaignUpdate]
     getDonationRefundRequestsByUser(userRequestingRefund: ID!): [DonationRefundRequest]
     getReportsByUser(reporter: ID!): [Report]
+    getReports: [Report]
   }
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth

@@ -51,6 +51,9 @@ const resolvers = {
     getReportsByUser: async (parent, { reporter }) => {
       return await Report.find({ reporter }).sort({ dateSubmitted: -1 });
     },
+    getReports: async () => {
+      return await Report.find().sort({ dateSubmitted: -1 });
+    },
   },
 
   Mutation: {

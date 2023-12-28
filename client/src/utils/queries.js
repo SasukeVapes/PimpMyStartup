@@ -59,3 +59,15 @@ export const GET_FUNDRAISER_BY_ID = gql`
     }
   }
 `;
+export const GET_REPORTS = gql`
+  query GetReports {
+    getReports {
+      _id
+      reporter
+      description
+      status
+      dateSubmitted
+      fundraiserOrContributionID
+    }
+  }
+`;

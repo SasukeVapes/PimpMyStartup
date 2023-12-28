@@ -228,4 +228,13 @@ module.exports = {
       res.status(500).json({ message: "Internal server error" });
     }
   },
+  async getReports(req, res) {
+    try {
+      const reports = await Report.find().sort({ dateSubmitted: -1 });
+      res.json(reports);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  },
 };

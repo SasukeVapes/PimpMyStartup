@@ -12,7 +12,7 @@ import {
 import { GET_FUNDRAISER_BY_ID } from "../utils/queries";
 import { useQuery, useMutation } from "@apollo/client";
 import { useState } from "react";
-import { ADD_CONTRIBUTION } from "../utils/mutations";
+import { ADD_CONTRIBUTION, SUBMIT_REPORT } from "../utils/mutations";
 import Auth from "../utils/auth";
 
 const FundraiserDetail = () => {
@@ -34,6 +34,11 @@ const FundraiserDetail = () => {
   });
 
   const [addContribution, addContributionResp] = useMutation(ADD_CONTRIBUTION);
+  const [submitReport, submitReportResp] = useMutation(SUBMIT_REPORT);
+
+  const [showReportForm, setShowReportForm] = useState(false);
+  const [reportDescription, setReportDescription] = useState("");
+  const [reportSubmitted, setReportSubmitted] = useState(false);
 
   const handleInputChange = (e) => {
     e.preventDefault();
@@ -69,7 +74,27 @@ const FundraiserDetail = () => {
       });
       setDonated(true);
     } catch (err) {
-      //  console.log("error creating contribution", err);
+      console.error("Error creating contribution", err);
+    }
+  };
+
+  const handleReportSubmit = async () => {
+    try {
+      const { data } = await submitReport({
+        variables: {
+          reportInput: {
+            reporter: Auth.getProfile().data._id,
+            description: reportDescription,
+            fundraiserOrContributionID: id,
+          },
+        },
+      });
+
+      console.log("Submitted report:", data.submitReport);
+      setReportSubmitted(true);
+      setReportDescription(""); // Clear the description after submission
+    } catch (error) {
+      console.error("Error submitting report:", error.message);
     }
   };
 
@@ -97,7 +122,7 @@ const FundraiserDetail = () => {
             <br />
             <br />
             <h5>Contributions</h5>
-            <div class="contributions">
+            <div className="contributions">
               {fundraiserData.contributions.map((contribution) => {
                 return (
                   <div className="contribution-detail">
@@ -111,14 +136,51 @@ const FundraiserDetail = () => {
             </div>
           </Col>
           <Col xs={8}>
-            <div class="form">
+            <div className="form">
               Created by <strong>{fundraiserData.posterUsername}</strong> on{" "}
               <em>{fundraiserData.createdAt}</em>
             </div>
             <p>{fundraiserData.description}</p>
           </Col>
         </Row>
-
+        
+        <Button onClick={() => setShowReportForm(true)}>Report</Button>
+              
+          {/* Report Form */}
+          {showReportForm && (
+            <div>
+              <Form>
+                <Form.Group>
+                  <Form.Label>Description:</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    value={reportDescription}
+                    onChange={(e) => setReportDescription(e.target.value)}
+                  />
+                </Form.Group>
+                {reportSubmitted && (
+                  <Alert
+                    dismissible
+                    variant="success"
+                    onClose={() => setReportSubmitted(false)}
+                  >
+                    Report submitted successfully!
+                  </Alert>
+                )}
+                {submitReportResp &&
+                  submitReportResp.error &&
+                  submitReportResp.error.message && (
+                    <Alert dismissible variant="danger">
+                      {submitReportResp.error.message}
+                    </Alert>
+                  )}
+                <Button type="button" onClick={handleReportSubmit}>
+                  Submit Report
+                </Button>
+              </Form>
+            </div>
+          )}
         <div className="form">
           {!Auth.loggedIn() && (
             <h3>Please login to contribute to this cause!</h3>
@@ -126,26 +188,28 @@ const FundraiserDetail = () => {
           {Auth.loggedIn() && (
             <>
               <h3>Contribute to this cause!</h3>
-              <br />
-              <Form onSubmit={handleContributionSubmit}>
-                {donated && (
-                  <Alert
-                    dismissible
-                    variant="success"
-                    onClose={() => {
-                      setDonated(false);
-                    }}
-                  >
-                    Thank you for your contribution!
+              
+
+              {/* Contribution Form */}
+              {donated && (
+                <Alert
+                  dismissible
+                  variant="success"
+                  onClose={() => {
+                    setDonated(false);
+                  }}
+                >
+                  Thank you for your contribution!
+                </Alert>
+              )}
+              {addContributionResp &&
+                addContributionResp.error &&
+                addContributionResp.error.message && (
+                  <Alert dismissible variant="danger">
+                    {addContributionResp.error.message}
                   </Alert>
                 )}
-                {addContributionResp &&
-                  addContributionResp.error &&
-                  addContributionResp.error.message && (
-                    <Alert dismissible variant="danger">
-                      {addContributionResp.error.message}
-                    </Alert>
-                  )}
+              <Form onSubmit={handleContributionSubmit}>
                 <Row>
                   <Col xs={5}>
                     <Form.Group>
@@ -240,9 +304,7 @@ const FundraiserDetail = () => {
                   </Col>
                   <Col>
                     <Form.Group>
-                      <Form.Label htmlFor="creditCardCvv">
-                        Cvv number
-                      </Form.Label>
+                      <Form.Label htmlFor="creditCardCvv">Cvv number</Form.Label>
                       <Form.Control
                         type="text"
                         placeholder=""

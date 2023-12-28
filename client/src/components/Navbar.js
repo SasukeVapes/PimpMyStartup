@@ -34,6 +34,9 @@ const AppNavBar = () => {
                   </Nav.Link>
               {Auth.loggedIn() ? (
                 <>
+                   <Nav.Link as={Link} className="nav-text" to="/pimpadmin">
+                    Administration
+                  </Nav.Link>
                   <Nav.Link as={Link} className="nav-text" to="/created">
                     My Fundraisers
                   </Nav.Link>
