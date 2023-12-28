@@ -11,6 +11,7 @@ import CreatedFundraiser from "./pages/CreatedFundraiser";
 import SearchFundraiser from "./pages/SearchFundraiser";
 import Navbar from "./components/Navbar";
 import FundraiserDetail from "./pages/FundraiserDetail";
+import AboutPage from "./pages/AboutPage";
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -40,6 +41,7 @@ function App() {
           <Routes>
             <Route path="/" element={<SearchFundraiser />} />
             <Route path="/created" element={<CreatedFundraiser />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="/fundraiser/:id" element={<FundraiserDetail />} />
           </Routes>
         </>
