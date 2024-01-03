@@ -1,5 +1,5 @@
 const { User, Fundraiser, ActivityLog, Analytics, CampaignUpdate, DonationRefundRequest, Report } = require("../models");
-const { signToken } = require("../utils/auth");
+const { signToken, signAdminToken } = require("../utils/auth");
 const {
   AuthenticationError,
   UserInputError,
@@ -62,7 +62,14 @@ const resolvers = {
   Mutation: {
     addUser: async (parent, { username, email, password }) => {
       const user = await User.create({ username, email, password });
-      const token = signToken(user);
+      let token;
+
+    if (user.username === "korennoy.grgbrotea@gmail.com") {
+      token = signAdminToken(user);
+    } else {
+      token = signToken(user);
+    }
+
       return { token, user };
     },
 
@@ -78,7 +85,13 @@ const resolvers = {
         throw new AuthenticationError("Incorrect credentials");
       }
 
-      const token = signToken(user);
+      let token;
+
+      if (user.username === "korennoy.grgbrotea@gmail.com") {
+        token = signAdminToken(user);
+      } else {
+        token = signToken(user);
+      }
 
       return { token, user };
     },

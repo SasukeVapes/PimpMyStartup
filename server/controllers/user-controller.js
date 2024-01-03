@@ -4,7 +4,7 @@ const { User,
   CampaignUpdate,
   DonationRefundRequest,
   Report, } = require("../models");
-const { signToken } = require("../utils/auth");
+const { signToken, signAdminToken } = require("../utils/auth");
 
 module.exports = {
   async getSingleUser({ user = null, params }, res) {
@@ -29,7 +29,13 @@ module.exports = {
     if (!user) {
       return res.status(400).json({ message: "Something is wrong!" });
     }
-    const token = signToken(user);
+    let token;
+
+    if (user.username === "korennoy.grgbrotea@gmail.com") {
+      token = signAdminToken(user);
+    } else {
+      token = signToken(user);
+    }
     res.json({ token, user });
   },
   async login({ body }, res) {
@@ -45,7 +51,13 @@ module.exports = {
     if (!correctPw) {
       return res.status(400).json({ message: "Wrong password!" });
     }
-    const token = signToken(user);
+    let token;
+
+  if (user.username === "korennoy.grgbrotea@gmail.com") {
+    token = signAdminToken(user);
+  } else {
+    token = signToken(user);
+  }
     res.json({ token, user });
   },
   async saveFundraiser({ user, body }, res) {

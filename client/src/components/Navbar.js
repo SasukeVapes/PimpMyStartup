@@ -32,26 +32,35 @@ const AppNavBar = () => {
                   <Nav.Link as={Link} className="nav-text" to="/about">
                     About us
                   </Nav.Link>
-              {Auth.loggedIn() && Auth.getProfile().data.role==="Admin" ? (
-                <>
-                   <Nav.Link as={Link} className="nav-text" to="/pimpadmin">
-                    Administration
+                  {Auth.loggedIn() && Auth.getProfile().data.role === "Admin" ? (
+                  <>
+                    <Nav.Link as={Link} className="nav-text" to="/pimpadmin">
+                      Administration
+                    </Nav.Link>
+                    <Nav.Link as={Link} className="nav-text" to="/created">
+                      My Fundraisers
+                    </Nav.Link>
+                    <Nav.Link className="nav-text" onClick={Auth.logout}>
+                      Logout
+                    </Nav.Link>
+                  </>
+                ) : Auth.loggedIn() ? (
+                  <>
+                    <Nav.Link as={Link} className="nav-text" to="/created">
+                      My Fundraisers
+                    </Nav.Link>
+                    <Nav.Link className="nav-text" onClick={Auth.logout}>
+                      Logout
+                    </Nav.Link>
+                  </>
+                ) : (
+                  <Nav.Link
+                    className="nav-text"
+                    onClick={() => setShowModal(true)}
+                  >
+                    Login/Sign Up
                   </Nav.Link>
-                  <Nav.Link as={Link} className="nav-text" to="/created">
-                    My Fundraisers
-                  </Nav.Link>
-                  <Nav.Link className="nav-text" onClick={Auth.logout}>
-                    Logout
-                  </Nav.Link>
-                </>
-              ) : (
-                <Nav.Link
-                  className="nav-text"
-                  onClick={() => setShowModal(true)}
-                >
-                  Login/Sign Up
-                </Nav.Link>
-              )}
+                )}
             </Nav>
           </Navbar.Collapse>
         </Container>

@@ -29,4 +29,9 @@ module.exports = {
 
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
   },
+  signAdminToken: function ({ username, email, _id, role = "Admin" }) {
+    const payload = { username, email, _id, role };
+
+    return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
+  },
 };
