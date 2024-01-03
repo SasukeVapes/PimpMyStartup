@@ -32,7 +32,7 @@ const AppNavBar = () => {
                   <Nav.Link as={Link} className="nav-text" to="/about">
                     About us
                   </Nav.Link>
-              {Auth.loggedIn() ? (
+              {Auth.loggedIn() && Auth.getProfile().data.role==="Admin" ? (
                 <>
                    <Nav.Link as={Link} className="nav-text" to="/pimpadmin">
                     Administration
