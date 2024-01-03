@@ -60,10 +60,8 @@ const ContactsPage = () => {
                 <li>MassTransit</li>
                 <li>FluentValidation</li>
                 <li>Redis</li>
-                {/* Add more skills as needed */}
               </ul>
             </Col>
-            {/* Add more roles as needed */}
           </Row>
         </div>
         <div>

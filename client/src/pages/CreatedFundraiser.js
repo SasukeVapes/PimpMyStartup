@@ -13,7 +13,8 @@ import Auth from "../utils/auth";
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import { GET_ME } from "../utils/queries";
 import FundraiserCard from "../components/FundraiserCard";
-import { ADD_FUNDRAISER } from "../utils/mutations";
+import { ADD_FUNDRAISER,  ADD_ACTIVITY_LOG } from "../utils/mutations";
+
 
 const CreatedFundraiser = () => {
   const [userData, setUserData] = useState({});
@@ -25,8 +26,28 @@ const CreatedFundraiser = () => {
   });
 
   const [addFundraiser, addFundraiserResp] = useMutation(ADD_FUNDRAISER);
+  const [addActivityLog] = useMutation(ADD_ACTIVITY_LOG)
   const [created, setCreated] = useState(false);
 
+  const handleMutation = async () => {
+    try {
+      const { data } = await addActivityLog({
+        variables: {
+          actionType: "Fundraiser Post",
+          description: "Fundraiser was created",
+          ipAddress: "",
+        },
+      });
+  
+      const userId = Auth.getProfile().data._id;
+      const username = Auth.getProfile().data.username;
+  
+      console.log(`User ID: ${userId}, Username: ${username}`);
+      console.log("Activity log mutation response:", data.addActivityLog);
+    } catch (error) {
+      console.error("Error performing mutation log:", error.message);
+    }
+  };
   const { loading } = useQuery(GET_ME, {
     onCompleted: (dt) => {
       setUserData(dt.me);
@@ -60,6 +81,8 @@ const CreatedFundraiser = () => {
         description: "",
       });
       setCreated(true);
+      handleMutation();
+
     } catch (err) {
       console.log("Error creating fundraiser", err);
     }

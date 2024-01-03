@@ -182,6 +182,15 @@ module.exports = {
       res.status(500).json({ message: "Internal server error" });
     }
   },
+  async getAllDonationRefundRequests(req, res) {
+    try {
+      const refunds = await DonationRefundRequest.find({});
+      res.json(refunds);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  },
   async getDonationRefundRequestsByUser(req, res) {
     try {
       const { userRequestingRefund } = req.params;

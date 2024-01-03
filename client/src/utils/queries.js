@@ -51,6 +51,7 @@ export const GET_FUNDRAISER_BY_ID = gql`
       image
       title
       contributions {
+        _id
         contributorUsername
         contributedAmount
         contributedAt
@@ -68,6 +69,49 @@ export const GET_REPORTS = gql`
       status
       dateSubmitted
       fundraiserOrContributionID
+    }
+  }
+`;
+export const CREATE_ANALYTICS = gql`
+  mutation CreateAnalytics($analyticsInput: AnalyticsInput!) {
+    createAnalytics(analyticsInput: $analyticsInput) {
+      totalFundsRaised
+      numberOfFundraisersCreated
+      averageDonationAmount
+      popularCategoriesTags
+      userActivityTrends {
+        signUps
+        logins
+        donations
+      }
+    }
+  }
+`;
+export const GET_ACTIVITY_LOGS = gql`
+  query GetActivityLogs {
+    getActivityLogs {
+      _id
+      userPerformingAction {
+        _id
+      }
+      actionType
+      timestamp
+      description
+      ipAddress
+    }
+  }
+`;
+export const GET_ALL_REFUNDS = gql`
+  query GetAllRefunds {
+    getAllDonationRefundRequests {
+      _id
+      userRequestingRefund
+      contributionID
+      fundraiserID
+      reasonForRefund
+      status
+      administratorComments
+      dateRequested
     }
   }
 `;

@@ -20,6 +20,7 @@ const typeDefs = gql`
   }
 
   type Contribution {
+    _id: ID!
     contributorUsername: String!
     contributedAmount: Float
     contributedAt: String
@@ -143,6 +144,7 @@ const typeDefs = gql`
     getAnalytics: [Analytics]
     getCampaignUpdatesByFundraiser(fundraiserID: ID!): [CampaignUpdate]
     getDonationRefundRequestsByUser(userRequestingRefund: ID!): [DonationRefundRequest]
+    getAllDonationRefundRequests: [DonationRefundRequest]
     getReportsByUser(reporter: ID!): [Report]
     getReports: [Report]
   }

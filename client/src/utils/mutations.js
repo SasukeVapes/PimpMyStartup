@@ -126,3 +126,31 @@ export const SUBMIT_REPORT = gql`
     }
   }
 `;
+export const REQUEST_DONATION_REFUND = gql`
+  mutation RequestDonationRefund($donationRefundRequestInput: DonationRefundRequestInput!) {
+    requestDonationRefund(donationRefundRequestInput: $donationRefundRequestInput) {
+      _id
+      userRequestingRefund
+      contributionID
+      fundraiserID
+      reasonForRefund
+      status
+      administratorComments
+    }
+  }
+`;
+export const ADD_ACTIVITY_LOG = gql`
+  mutation AddActivityLog($actionType: String!, $description: String!) {
+    addActivityLog(actionType: $actionType, description: $description) {
+      _id
+      userPerformingAction {
+        _id
+        username
+      }
+      actionType
+      timestamp
+      description
+      ipAddress
+    }
+  }
+`;

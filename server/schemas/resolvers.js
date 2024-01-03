@@ -45,6 +45,9 @@ const resolvers = {
     getCampaignUpdatesByFundraiser: async (parent, { fundraiserID }) => {
       return await CampaignUpdate.find({ fundraiserID }).sort({ datePosted: -1 });
     },
+    getAllDonationRefundRequests: async () => {
+      return await DonationRefundRequest.find().sort({ dateRequested: -1 });
+    },
     getDonationRefundRequestsByUser: async (parent, { userRequestingRefund }) => {
       return await DonationRefundRequest.find({ userRequestingRefund }).sort({ dateRequested: -1 });
     },
@@ -164,7 +167,7 @@ const resolvers = {
     },
     addActivityLog: async (parent, { actionType, description }, context) => {
       const userPerformingAction = context.user ? context.user._id : null;
-      const ipAddress = context.ipAddress; 
+      const ipAddress = context.req.ipInfo ? context.req.ipInfo.ip : null;
   
       const activityLog = await ActivityLog.create({
         userPerformingAction,
